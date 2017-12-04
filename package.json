@@ -1,0 +1,29 @@
+{
+  "name": "soko",
+  "version": "0.0.1",
+  "description": "A toolbox of cli tools for building and running javascript applications.",
+  "bin": {
+    "soko build": "",
+    "soko build styles": "",
+    "soko build assets": "",
+    "soko build scripts": "",
+    "soko clean": "",
+    "soko deploy": "",
+    "soko rev": "",
+    "soko server": "",
+    "soko watch": ""
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robmclarty/soko.git"
+  },
+  "author": "Rob McLarty <hello@robmclarty.com> (https://robmclarty.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/robmclarty/soko/issues"
+  },
+  "homepage": "https://github.com/robmclarty/soko#readme"
+}
