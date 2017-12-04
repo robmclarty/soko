@@ -2,19 +2,17 @@
   "name": "soko",
   "version": "0.0.1",
   "description": "A toolbox of cli tools for building and running javascript applications.",
-  "bin": {
-    "soko build": "gulp build",
-    "soko build styles": "gulp build:styles",
-    "soko build assets": "gulp build:assets",
-    "soko build scripts": "gulp build:scripts",
-    "soko clean": "gulp clean",
-    "soko deploy": "gulp deploy",
-    "soko rev": "gulp rev",
-    "soko server": "gulp server",
-    "soko watch": "gulp watch"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp build",
+    "build styles": "gulp build:styles",
+    "build assets": "gulp build:assets",
+    "build scripts": "gulp build:scripts",
+    "clean": "gulp clean",
+    "deploy": "gulp deploy",
+    "rev": "gulp rev",
+    "server": "gulp server",
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",

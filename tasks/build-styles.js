@@ -8,14 +8,14 @@ const gulpif = require('gulp-if')
 const sourcemaps = require('gulp-sourcemaps')
 const autoprefixer = require('gulp-autoprefixer')
 
-const DEFAULT_STYLESHEET_NAME = 'application'
+const DEFAULT_NAME = 'application'
 
 // Compile all SASS into CSS along with auto-prefixing and rev-replace static
 // assets. Minify and output to the build folder.
 gulp.task('build:styles', function () {
-  const name = argv.name || DEFAULT_STYLESHEET_NAME
+  const name = argv.name || DEFAULT_NAME
   const isProduction = process.env.NODE_ENV === 'production'
-  const stylesRoot = process.env.STYLES_ROOT || './styles/admin/index.scss'
+  const stylesRoot = process.env.STYLES_ROOT || `./styles/${ DEFAULT_NAME }/index.scss`
 
   return gulp.src([stylesRoot])
     .pipe(gulpif(!isProduction, sourcemaps.init({ loadMaps: true })))
