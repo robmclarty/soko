@@ -2,17 +2,19 @@
   "name": "soko",
   "version": "0.0.2",
   "description": "A toolbox of cli tools for building and running javascript applications.",
+  "bin": {
+    "soko build": "./bin/gulp_exec.js",
+    "soko build:styles": "./bin/gulp_exec.js",
+    "soko build:assets": "./bin/gulp_exec.js",
+    "soko build:scripts": "./bin/gulp_exec.js",
+    "soko clean": "./bin/gulp_exec.js",
+    "soko deploy": "./bin/gulp_exec.js",
+    "soko rev": "./bin/gulp_exec.js",
+    "soko server": "./bin/gulp_exec.js",
+    "soko watch": "./bin/gulp_exec.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "gulp build",
-    "build styles": "gulp build:styles",
-    "build assets": "gulp build:assets",
-    "build scripts": "gulp build:scripts",
-    "clean": "gulp clean",
-    "deploy": "gulp deploy",
-    "rev": "gulp rev",
-    "server": "gulp server",
-    "watch": "gulp watch"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,7 @@
     "babel-preset-react": "^6.24.1",
     "babelify": "^8.0.0",
     "browserify": "^14.5.0",
+    "del": "^3.0.0",
     "envify": "^4.1.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-autoprefixer": "^4.0.0",
@@ -45,6 +48,7 @@
     "gulp-uglify": "^3.0.0",
     "merge-stream": "^1.0.1",
     "require-dir": "^0.3.2",
+    "shelljs": "^0.7.8",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "yargs": "^10.0.3"

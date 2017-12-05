@@ -5,11 +5,11 @@ const rsync = require('gulp-rsync')
 const argv = require('yargs').argv
 const spawn = require('child_process').spawn
 
-const serverConf = require('../config/server')
+//const serverConf = require('../config/server')
 const host = process.env.SERVER_HOST || 'telus-health-book'
-const appRoot = `/opt/${ serverConf.folderName }`
-const staticRoot = `/srv/opt/${ serverConf.folderName }`
-const pm2Conf = `/etc/opt/${ serverConf.folderName }/pm2.json`
+const appRoot = `/opt/app`
+const staticRoot = `/srv/opt/app`
+const pm2Conf = `/etc/opt/app/pm2.json`
 const spawnConf = { cwd: appRoot, env: process.env }
 
 const manifestAssets = 'rev-assets-manifest.json'
