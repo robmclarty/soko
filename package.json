@@ -1,6 +1,6 @@
 {
   "name": "soko",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A toolbox of cli tools for building and running javascript applications.",
   "bin": {
     "soko": "./bin/soko.js"
@@ -19,12 +19,15 @@
   },
   "homepage": "https://github.com/robmclarty/soko#readme",
   "dependencies": {
+    "autoprefixer": "^7.2.1",
     "babel-core": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babelify": "^8.0.0",
     "browserify": "^14.5.0",
+    "clean-css": "^4.1.9",
+    "cssnano": "^3.10.0",
     "del": "^3.0.0",
     "envify": "^4.1.0",
     "gulp": "github:gulpjs/gulp#4.0",
@@ -40,6 +43,8 @@
     "gulp-uglify": "^3.0.0",
     "merge-stream": "^1.0.1",
     "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "node-sass": "^4.7.2",
     "require-dir": "^0.3.2",
     "shelljs": "^0.7.8",
     "vinyl-buffer": "^1.0.0",

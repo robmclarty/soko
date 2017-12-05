@@ -1,28 +1,89 @@
 'use strict'
 
-const gulp = require('gulp')
-const minifycss = require('gulp-cssnano')
-const concat = require('gulp-concat')
-const sass = require('gulp-sass')
-const gulpif = require('gulp-if')
-const sourcemaps = require('gulp-sourcemaps')
-const autoprefixer = require('gulp-autoprefixer')
+const fs = require('fs')
+const mkdirp = require('mkdirp')
+const CleanCSS = require('clean-css')
+const sass = require('node-sass')
 
-const DEFAULT_NAME = 'application'
+const DEFAULT_INTPUT_PATH = './styles'
+const DEFAULT_INPUT_NAME = 'index.scss'
+const DEFAULT_OUTPUT_NAME = 'application.css'
+const DEFAULT_OUTPUT_PATH = `./build/stylesheets/${ DEFAULT_OUTPUT_NAME }`
 
-// Compile all SASS into CSS along with auto-prefixing and rev-replace static
-// assets. Minify and output to the build folder.
-gulp.task('build:styles', function () {
-  const name = argv.name || DEFAULT_NAME
-  const isProduction = process.env.NODE_ENV === 'production'
-  const stylesRoot = process.env.STYLES_ROOT || `./styles/${ DEFAULT_NAME }/index.scss`
+// Specify a full path including filename to the root .scss file, or if no
+// .scss file is specified, assume the path to be a folder with a file named
+// `index.scss` in its root.
+const getSass = path => new Promise((resolve, reject) => {
+  const filename = path.substr(path.lastIndexOf('.') + 1) === 'scss' ?
+    path :
+    `${ path }/${ DEFAULT_INPUT_NAME }`
 
-  return gulp.src([stylesRoot])
-    .pipe(gulpif(!isProduction, sourcemaps.init({ loadMaps: true })))
-      .pipe(concat(`${ name }.scss`))
-      .pipe(sass({ style: 'expanded' }))
-      .pipe(autoprefixer({ browsers: ['last 2 versions'] }))
-      .pipe(gulpif(isProduction, minifycss()))
-    .pipe(gulpif(!isProduction, sourcemaps.write('.')))
-    .pipe(gulp.dest('./build/stylesheets'))
+  fs.readFile(filename, 'utf8', (err, data) => {
+    if (err) return reject(err)
+
+    resolve(data)
+  })
 })
+
+// Save file to `path`, if specified, otherwise save to `./build/application.css`.
+const saveCSS = (path, data) => new Promise((resolve, reject) => {
+  const filename = path.substr(path.lastIndexOf('.') + 1) === 'css' ?
+      path :
+      `${ path }/${ DEFAULT_OUTPUT_NAME }`
+  const folders = filename.split('/').slice(0, -1).join('/')
+
+  mkdirp(folders, mkdirErr => {
+    if (mkdirErr) return reject(mkdirErr)
+
+    fs.writeFile(filename, data, err => {
+      if (err) return reject(err)
+
+      resolve()
+    })
+  })
+})
+
+// Open a .scss file and render it as CSS.
+const sassToCSS = (data, includePaths) => new Promise((resolve, reject) => {
+  sass.render({
+    data,
+    includePaths
+  }, (err, results) => {
+    if (err) return reject(err)
+
+    console.log('node-sass entry: ', results.stats.entry)
+    console.log('node-sass start: ', results.stats.start)
+    console.log('node-sass end: ', results.stats.end)
+    console.log(`node-sass duration: ${ results.stats.duration }ms`)
+    console.log('node-sass included files: ', results.stats.includedFiles)
+
+    resolve(results.css.toString())
+  })
+})
+
+// Take regular CSS and return compressed and minified CSS.
+const minifyCSS = source => new CleanCSS({
+  level: 2,
+  returnPromise: true
+})
+  .minify(source)
+  .then(output => {
+    console.log(`clean-css original size: ${ output.stats.originalSize }bytes`)
+    console.log(`clean-css minified size: ${ output.stats.minifiedSize }bytes`)
+    console.log(`clean-css time spent: ${ output.stats.timeSpent }ms`)
+    console.log('clean-css efficiency: ', output.stats.efficiency)
+
+    return output.styles
+  })
+
+module.exports = argv => {
+  const inputPath = argv._[1] || DEFAULT_INPUT_PATH
+  const outputPath = argv.output || DEFAULT_OUTPUT_PATH
+
+  getSass(inputPath)
+    .then(data => sassToCSS(data, [inputPath]))
+    .then(css => minifyCSS(css))
+    .then(miniCSS => saveCSS(outputPath, miniCSS))
+    .then(() => console.log('build css complete'))
+    .catch(err => console.log('ERROR: ', err))
+}

@@ -1,0 +1,97 @@
+// Use border-box for all elements.
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+// Disable MS's default "clear" button for all input fields.
+::-ms-clear {
+  display: none;
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  opacity: 0;
+}
+
+// Enable font smoothing and legibility options for all content.
+html {
+  font-family: sans-serif;
+  text-rendering: optimizeLegibility;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 1em = 16px (factor of 4 such that .5em = 8px, .25em = 4px).
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.2em;
+  background-color: grey;
+  color: #333;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  padding: 0;
+  color: black;
+  font-weight: normal;
+}
+h1 {
+  font-size: 4em;
+  line-height: 1em;
+  margin-bottom: .75em;
+}
+h2 {
+  font-size: 3em;
+  line-height: 3.2em;
+}
+h3 {
+  font-size: 2em;
+  line-height: 2.2em;
+}
+h4 {
+  font-size: 1em;
+  line-height: 1em;
+  margin: 1em 0;
+}
+
+a {
+  color: green;
+  -webkit-tap-highlight-color: transparent;
+}
+
+p {
+  margin: 1em 0;
+}
+
+button {
+  padding: 0.6em 1.5em;
+  outline: none;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  & > li {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+form {
+  width: 100%;
+  max-width: 30em;
+  margin: 0;
+}

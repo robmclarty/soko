@@ -26,7 +26,7 @@ let node
 //   done()
 // })
 
-const server = argv => {
+module.exports = argv => {
   const path = argv._[1] || DEFAULT_PATH
 
   console.log('args: ', argv)
@@ -46,5 +46,3 @@ const server = argv => {
 process.on('exit', function () {
   if (node) node.kill()
 })
-
-module.exports = server
