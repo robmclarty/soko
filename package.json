@@ -1,17 +1,9 @@
 {
   "name": "soko",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A toolbox of cli tools for building and running javascript applications.",
   "bin": {
-    "soko-build": "./bin/gulp_exec.js",
-    "soko-build:styles": "./bin/gulp_exec.js",
-    "soko-build:assets": "./bin/gulp_exec.js",
-    "soko-build:scripts": "./bin/gulp_exec.js",
-    "soko-clean": "./bin/gulp_exec.js",
-    "soko-deploy": "./bin/gulp_exec.js",
-    "soko-rev": "./bin/gulp_exec.js",
-    "soko-server": "./bin/gulp_exec.js",
-    "soko-watch": "./bin/gulp_exec.js"
+    "soko": "./bin/soko.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -47,6 +39,7 @@
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
     "merge-stream": "^1.0.1",
+    "minimist": "^1.2.0",
     "require-dir": "^0.3.2",
     "shelljs": "^0.7.8",
     "vinyl-buffer": "^1.0.0",
