@@ -51,6 +51,7 @@ const deployAssets = argv => {
     }))
     .pipe(size())
     .on('data', noop)
+    .on('error', err => console.log('ERROR: ', err))
 }
 
 // Copy all files in /server as well as npm package manifest.
