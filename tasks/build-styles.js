@@ -1,14 +1,14 @@
 'use strict'
 
-const fs = require('fs')
-const mkdirp = require('mkdirp')
-const CleanCSS = require('clean-css')
-const sass = require('node-sass')
-
 const DEFAULT_INTPUT_PATH = './styles'
 const DEFAULT_INPUT_NAME = 'index.scss'
 const DEFAULT_OUTPUT_NAME = 'application.css'
 const DEFAULT_OUTPUT_PATH = `./build/stylesheets/${ DEFAULT_OUTPUT_NAME }`
+
+const fs = require('fs')
+const mkdirp = require('mkdirp')
+const CleanCSS = require('clean-css')
+const sass = require('node-sass')
 
 // Specify a full path including filename to the root .scss file, or if no
 // .scss file is specified, assume the path to be a folder with a file named
@@ -76,7 +76,7 @@ const minifyCSS = source => new CleanCSS({
     return output.styles
   })
 
-module.exports = argv => {
+ const buildStyles = argv => {
   const inputPath = argv._[1] || DEFAULT_INPUT_PATH
   const outputPath = argv.output || DEFAULT_OUTPUT_PATH
 
@@ -87,3 +87,5 @@ module.exports = argv => {
     .then(() => console.log('build css complete'))
     .catch(err => console.log('ERROR: ', err))
 }
+
+module.exports = buildStyles

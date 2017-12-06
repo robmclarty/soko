@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
-const shell = require('shelljs')
+//const shell = require('shelljs')
 const argv = require('minimist')(process.argv.slice(2))
 
 const tasks = {
-  server: require('../tasks/server'),
-  'build:styles': require('../tasks/build-styles')
+  'server': require('../tasks/server'),
+  'build:styles': require('../tasks/build-styles'),
+  'build:scripts': require('../tasks/build-scripts')
 }
 
 // Takes `argv` from yargs and returns the args formatted as a string for the cli.

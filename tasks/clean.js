@@ -1,13 +1,14 @@
 'use strict'
 
-const gulp = require('gulp')
 const del = require('del')
 
-// Wipe out any existing files and folders in the ./public directory so we can
+// Wipe out any existing files and folders in the ./build directory so we can
 // start again fresh.
-gulp.task('clean', function () {
-  return del([
+const clean = () => {
+  del([
     `./build/**/*`,
     `!./build/.keep`
   ])
-})
+}
+
+module.exports = clean

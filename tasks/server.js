@@ -6,6 +6,7 @@ const spawn = require('child_process').spawn
 
 const DEFAULT_PATH = './index.js'
 
+// A single instance of node wrapped in this module's closure to be reused.
 let node
 
 // Launch the server. If there's a server already running, kill it.
@@ -26,7 +27,7 @@ let node
 //   done()
 // })
 
-module.exports = argv => {
+const server = argv => {
   const path = argv._[1] || DEFAULT_PATH
 
   console.log('args: ', argv)
@@ -46,3 +47,5 @@ module.exports = argv => {
 process.on('exit', function () {
   if (node) node.kill()
 })
+
+module.exports = server
