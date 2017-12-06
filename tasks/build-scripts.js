@@ -21,7 +21,7 @@ const buffer = require('vinyl-buffer')
 // sourcemaps, use browserify for CommonJS and output to
 // 'public/js/application.js' as ES5.
 const buildJS = argv => {
-  const isProduction = argv.production process.env.NODE_ENV === 'production'
+  const isProduction = argv.production || false
   const inputPath = argv._[1] || DEFAULT_INPUT_PATH
   const outputPath = argv.output || DEFAULT_OUTPUT_PATH
   const browsers = argv.browsers || DEFAULT_BROWSERS
@@ -46,12 +46,12 @@ const buildJS = argv => {
     .transform(babelify.configure(babelifyOptions))
 
   return stream.bundle()
-    .pipe(source(outputFilename))
+    .pipe(source('application.js'))
     .pipe(buffer())
     .pipe(gulpif(!isProduction, sourcemaps.init({ loadMaps: true })))
       .pipe(gulpif(isProduction, uglify()))
     .pipe(gulpif(!isProduction, sourcemaps.write('.')))
-    .pipe(size())
+    .pipe(size({ showFiles: true }))
     .pipe(gulp.dest(outputFolders))
 }
 
