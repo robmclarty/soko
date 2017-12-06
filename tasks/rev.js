@@ -72,4 +72,6 @@ const revAll = gulp.series(
   revHTML
 )
 
-module.exports = revAll
+module.exports = {
+  rev: revAll
+}

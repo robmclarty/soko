@@ -1,14 +1,26 @@
 #!/usr/bin/env node
 
-//const shell = require('shelljs')
 const argv = require('minimist')(process.argv.slice(2))
+const {
+  deploy,
+  deployAssets,
+  deployApp,
+  deployRemote
+} = require('../tasks/deploy')
+const {
+  rev
+} = require('../tasks/rev')
 
 const tasks = {
   'server': require('../tasks/server'),
   'build:css': require('../tasks/build-styles'),
   'build:js': require('../tasks/build-scripts'),
-  'rev': require('../tasks/rev.js'),
-  'clean': require('../tasks/clean.js')
+  'rev': rev,
+  'clean': require('../tasks/clean'),
+  'deploy': deploy,
+  'deploy:assets': deployAssets,
+  'deploy:app': deployApp,
+  'deploy:remote': deployRemote
 }
 
 // Takes `argv` from yargs and returns the args formatted as a string for the cli.
@@ -26,9 +38,6 @@ const argvToString = a => {
 }
 
 const action = argv._[0]
-// const cmd = `${} ${ action } ${ argvToString(argv) }`
-//
-// shell.exec(cmd)
 
 console.log('argv: ', argv)
 console.log('action: ', action)
