@@ -1,6 +1,6 @@
 'use strict'
 
-const DEFAULT_INTPUT_PATH = './styles'
+const DEFAULT_INPUT_PATH = './styles'
 const DEFAULT_INPUT_NAME = 'index.scss'
 const DEFAULT_OUTPUT_NAME = 'application.css'
 const DEFAULT_OUTPUT_PATH = `./build/stylesheets/${ DEFAULT_OUTPUT_NAME }`

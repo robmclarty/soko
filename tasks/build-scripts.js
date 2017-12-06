@@ -6,13 +6,22 @@ const DEFAULT_OUTPUT_NAME = 'application.js'
 const DEFAULT_OUTPUT_PATH = `./build/javascripts/${ DEFAULT_OUTPUT_NAME }`
 const DEFAULT_BROWSERS = ['last 2 versions']
 
-const fs = require('fs')
+const gulp = require('gulp')
+const uglify = require('gulp-uglify')
+const gulpif = require('gulp-if')
+const size = require('gulp-size')
+const sourcemaps = require('gulp-sourcemaps')
 const browserify = require('browserify')
 const babelify = require('babelify')
-const uglifyify = require('uglifyify')
-const mkdirp = require('mkdirp')
+const envify = require('envify/custom')
+const source = require('vinyl-source-stream')
+const buffer = require('vinyl-buffer')
 
-const buildScripts = argv => {
+// Concatenate all app JS files, parse JSX and ES6 using Babel, write
+// sourcemaps, use browserify for CommonJS and output to
+// 'public/js/application.js' as ES5.
+const buildJS = argv => {
+  const isProduction = argv.production process.env.NODE_ENV === 'production'
   const inputPath = argv._[1] || DEFAULT_INPUT_PATH
   const outputPath = argv.output || DEFAULT_OUTPUT_PATH
   const browsers = argv.browsers || DEFAULT_BROWSERS
@@ -23,33 +32,27 @@ const buildScripts = argv => {
     `${ outputPath }/${ DEFAULT_OUTPUT_NAME }`
   const outputFolders = outputFilename.split('/').slice(0, -1).join('/')
 
-  const browserifyOpts = {
+  const browserifyOptions = {
     entries: [inputPath],
-    debug: false,
+    debug: true,
     fullPaths: false
   }
-  const babelifyOpts = {
-    presets: [
-      ['env', { targets }],
-      ['react']
-    ],
+  const babelifyOptions = {
+    presets: [['env', { targets }], 'react'],
     plugins: ['babel-plugin-transform-object-rest-spread']
   }
-  const uglifyOpts = {
-    global: true,
-    sourceMap: false
-  }
-  const stream = browserify(browserifyOpts)
-    .transform(babelify.configure(babelifyOpts))
-    .transform('uglifyify', uglifyOpts)
+  const stream = browserify(browserifyOptions)
+    .transform(envify())
+    .transform(babelify.configure(babelifyOptions))
 
-  mkdirp(outputFolders, mkdirErr => {
-    if (mkdirErr) return console.log('ERROR: ', mkdirErr)
-
-    stream.bundle()
-      .on('error', err => console.log('ERROR: ', err))
-      .pipe(fs.createWriteStream(DEFAULT_OUTPUT_PATH))
-  })
+  return stream.bundle()
+    .pipe(source(outputFilename))
+    .pipe(buffer())
+    .pipe(gulpif(!isProduction, sourcemaps.init({ loadMaps: true })))
+      .pipe(gulpif(isProduction, uglify()))
+    .pipe(gulpif(!isProduction, sourcemaps.write('.')))
+    .pipe(size())
+    .pipe(gulp.dest(outputFolders))
 }
 
-module.exports = buildScripts
+module.exports = buildJS
