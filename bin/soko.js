@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const gulp = require('gulp')
 const argv = require('minimist')(process.argv.slice(2))
 const {
   deploy,
@@ -7,16 +8,24 @@ const {
   deployApp,
   deployRemote
 } = require('../tasks/deploy')
+const { rev } = require('../tasks/rev')
+const server = require('../tasks/server')
+const clean = require('../tasks/clean')
 const {
-  rev
-} = require('../tasks/rev')
+  build,
+  buildAssets,
+  buildCSS,
+  buildJS
+} = require('../tasks/build')
 
 const tasks = {
-  'server': require('../tasks/server'),
-  'build:styles': require('../tasks/build-styles'),
-  'build:scripts': require('../tasks/build-scripts'),
+  'server': server,
+  'build': build,
+  'build:assets': buildAssets,
+  'build:css': buildCSS,
+  'build:js': buildJS,
   'rev': rev,
-  'clean': require('../tasks/clean'),
+  'clean': clean,
   'deploy': deploy,
   'deploy:assets': deployAssets,
   'deploy:app': deployApp,

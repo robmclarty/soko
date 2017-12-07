@@ -2,6 +2,8 @@
 
 A toolbox of cli tools for building and running javascript apps.
 
+![tool box](toolbox.png)
+
 [Dan Abromov](https://github.com/gaearon) talked about his idea for "tool boxes"
 in his talk [The Melting Pot of Javascript](https://www.youtube.com/watch?v=G39lKaONAlA)
 which could bundle developers' tools together in an updatable package using the
@@ -16,7 +18,9 @@ be updated.
 
 ## Install
 
-`npm install soko`
+`npm install soko --save-dev`
+
+Install in your project locally to keep it in sync with how your project works.
 
 ## Usage
 
@@ -25,6 +29,12 @@ be updated.
 Soko can be installed in your project's local `node_modules` folder and run
 using npm's new `npx` command (which will search in your `$PATH`, but also in
 your local `node_modules/.bin` for any matching command).
+
+`npx` is a tool that came out with [npm v5.2.0](https://github.com/npm/npm/releases/tag/v5.2.0)
+"is meant to make it easy to use CLI tools and other executables hosted on the
+registry".
+
+This is how you [install node and update npm](https://docs.npmjs.com/getting-started/installing-node).
 
 ### Launch a NodeJS Server
 
@@ -40,21 +50,42 @@ Watch source files for changes and restart server when they do.
 
 ### Build React and/or ES2015+ Javascripts
 
-`npx soko build:scripts /path/to/app.js`
+`npx soko build:js /path/to/app.js`
 
-Use Babel with the `env` preset to target specific environments for output along
+Use Babel with the `env` preset to target specific environments (using
+[browserlist](https://github.com/ai/browserslist) format) for output along
 with Browserify to enable multi-file modules, then pass the results through
 uglify to make it super small.
 
 ### Build SASS Styles
 
-`npx soko build:styles /path/to/styles.scss`
+`npx soko build:css /path/to/styles.scss`
 
-Compile SASS and minify CSS.
+Compile SASS and minify CSS. Makes use of
+[autoprefixer](https://github.com/postcss/autoprefixer), so you can just
+write pure SASS/CSS.
+
+### Build Assets
+
+Simply copy static asset files to build folder to place them altogether beside
+your scripts and styles. Static assets might also include HTML files ;)
+
+`npx soko build:assets /path/to/assets/folder`
+
+### Build All
+
+You can also execute all build commands in one go.
+
+```
+npx soko build
+  --cssIn /path/to/styles.scss
+  --jsIn /path/to/app.js
+  --assetsIn /path/to/assets/folder`
+```
 
 ### Revisioning Static Assets
 
-`npx soko rev /path/to/build`
+`npx soko rev /path/to/build/folder`
 
 Copy all static assets to build folder and rename them using a hash of their
 contents such that the hash (and filename) will change if the contents change
