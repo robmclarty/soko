@@ -8,7 +8,13 @@ const {
   deployApp,
   deployRemote
 } = require('../tasks/deploy')
-const { rev } = require('../tasks/rev')
+const {
+  rev,
+  revAssets,
+  revJS,
+  revCSS,
+  revHTML
+} = require('../tasks/rev')
 const server = require('../tasks/server')
 const clean = require('../tasks/clean')
 const {
@@ -25,6 +31,10 @@ const tasks = {
   'build:css': buildCSS,
   'build:js': buildJS,
   'rev': rev,
+  'rev:assets': revAssets,
+  'rev:js': revJS,
+  'rev:css': revCSS,
+  'rev:html': revHTML,
   'clean': clean,
   'deploy': deploy,
   'deploy:assets': deployAssets,

@@ -3,75 +3,84 @@
 const gulp = require('gulp')
 const rev = require('gulp-rev')
 const revReplace = require('gulp-rev-replace')
+const size = require('gulp-size')
 
-const manifestAssets = 'rev-assets-manifest.json'
-const manifestScripts = 'rev-scripts-manifest.json'
-const manifestStyles = 'rev-styles-manifest.json'
+const DEFAULT_BUILD_FOLDER = './build'
+const DEFAULT_MANIFEST_ASSETS_NAME = 'rev-manifest-assets.json'
+const DEFAULT_MANIFEST_JS_NAME = 'rev-manifest-js.json'
+const DEFAULT_MANIFEST_CSS_NAME = 'rev-manifest-css.json'
 
-// Apply rev hashes to all static asset file names for cache busting.
-//gulp.task('rev:assets', function () {
-const revAssets = () => {
-  return gulp.src('./tests/assets/**/*')
+const revAssets = argv => {
+  const inputPath = DEFAULT_BUILD_FOLDER
+  const manifestAssetsPath = `${ DEFAULT_BUILD_FOLDER }/${ DEFAULT_MANIFEST_ASSETS_NAME }`
+
+  return gulp.src([
+    `${ inputPath }/**/*`,
+    '!*.js',
+    '!*.css',
+    '!*.html'
+  ])
     .pipe(rev())
-    .pipe(gulp.dest('./build/'))
-    .pipe(rev.manifest(manifestAssets))
-    .pipe(gulp.dest('./build/'))
+    .pipe(gulp.dest(inputPath))
+    .pipe(size())
+    .pipe(rev.manifest(manifestAssetsPath))
+    .pipe(gulp.dest('.'))
 }
 
-// Apply rev hashes to all javascript files. This task assumes there is already
-// existing javascript files built in the ./public/javascripts folder.
-//gulp.task('rev:js', function () {
-const revJS = () => {
-  const manifest = gulp.src(`./build/${ manifestAssets }`)
+const revJS = argv => {
+  const inputPath = DEFAULT_BUILD_FOLDER
+  const manifestAssetsPath = `${ DEFAULT_BUILD_FOLDER }/${ DEFAULT_MANIFEST_ASSETS_NAME }`
+  const manifestJSPath = `${ DEFAULT_BUILD_FOLDER }/${ DEFAULT_MANIFEST_JS_NAME }`
 
-  return gulp.src(`./build/javascripts/**/*.js`)
-    .pipe(revReplace({ manifest }))
+  return gulp.src(`${ inputPath }/**/*.js`)
+    .pipe(revReplace({ manifest: gulp.src(manifestAssetsPath) }))
     .pipe(rev())
-    .pipe(gulp.dest('./build/javascripts/'))
-    .pipe(rev.manifest(manifestScripts))
-    .pipe(gulp.dest('./build/'))
+    .pipe(gulp.dest(inputPath))
+    .pipe(rev.manifest(manifestJSPath))
+    .pipe(gulp.dest('.'))
 }
 
-// Apply rev hashes to all css files. This task assumes there is already
-// existing css files built in the ./public/stylesheets folder.
-//gulp.task('rev:css', function () {
-const revCSS = () => {
-  const manifest = gulp.src(`./build/${ manifestAssets }`)
+const revCSS = argv => {
+  const inputPath = DEFAULT_BUILD_FOLDER
+  const manifestAssetsPath = `${ DEFAULT_BUILD_FOLDER }/${ DEFAULT_MANIFEST_ASSETS_NAME }`
+  const manifestCSSPath = `${ DEFAULT_BUILD_FOLDER }/${ DEFAULT_MANIFEST_CSS_NAME }`
 
-  return gulp.src(`./build/stylesheets/**/*.css`)
-    .pipe(revReplace({ manifest: manifest }))
+  return gulp.src(`${ inputPath }/**/*.css`)
+    .pipe(revReplace({ manifest: gulp.src(manifestAssetsPath) }))
     .pipe(rev())
-    .pipe(gulp.dest('./build/stylesheets'))
-    .pipe(rev.manifest(manifestStyles))
-    .pipe(gulp.dest('./build/'))
+    .pipe(gulp.dest(inputPath))
+    .pipe(rev.manifest(manifestCSSPath))
+    .pipe(gulp.dest('.'))
 }
 
-// Copy the html file for the admin client app and replace references to js
-// and css which have been adjusted with rev. This is done in a second step
-// so that each individual js and css file can include its own rev-replace step
-// before being revved itself (which would change the hash) and finally included
-// in the html here. This allows for diffs in the js/css files in cases where
-// the code itself has not changed, but a static asset being referenced has.
-//gulp.task('rev:html', function () {
-const revHTML = () => {
-  const jsManifest = gulp.src(`./build/${ manifestScripts }`)
-  const cssManifest = gulp.src(`./build/${ manifestStyles }`)
+const revHTML = argv => {
+  const inputPath = DEFAULT_BUILD_FOLDER
+  const manifestAssetsPath = `${ DEFAULT_BUILD_FOLDER }/${ DEFAULT_MANIFEST_ASSETS_NAME }`
+  const manifestJSPath = `${ DEFAULT_BUILD_FOLDER }/${ DEFAULT_MANIFEST_JS_NAME }`
+  const manifestCSSPath = `${ DEFAULT_BUILD_FOLDER }/${ DEFAULT_MANIFEST_CSS_NAME }`
 
-  return gulp.src('./build/**/*.html')
-    .pipe(revReplace({ manifest: jsManifest }))
-    .pipe(revReplace({ manifest: cssManifest }))
-    .pipe(gulp.dest('./build'))
+  return gulp.src(`${ inputPath }/**/*.html`)
+    .pipe(revReplace({ manifest: gulp.src(manifestAssetsPath) }))
+    .pipe(revReplace({ manifest: gulp.src(manifestCSSPath) }))
+    .pipe(revReplace({ manifest: gulp.src(manifestJSPath) }))
+    .pipe(gulp.dest(inputPath))
 }
 
-const revAll = gulp.series(
-  revAssets,
-  gulp.parallel(
-    revJS,
-    revCSS
-  ),
-  revHTML
-)
+const revAll = argv => {
+  return gulp.series(
+    () => revAssets(argv),
+    gulp.parallel(
+      () => revJS(argv),
+      () => revCSS(argv)
+    ),
+    () => revHTML(argv)
+  )()
+}
 
 module.exports = {
-  rev: revAll
+  rev: revAll,
+  revAssets,
+  revJS,
+  revCSS,
+  revHTML
 }

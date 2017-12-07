@@ -65,12 +65,12 @@ const buffer = require('vinyl-buffer')
 const buildJS = argv => {
   const isProduction = argv.production || false
   const browsers = argv.browsers || DEFAULT_BROWSERS
+  const node = argv.node || null
   const targets = node ? { node } : { browsers }
   const inputPath = argv._[1] || argv.jsIn || DEFAULT_JS_INPUT_PATH
   const outputPath = argv.jsOut || DEFAULT_JS_OUTPUT_PATH
   const outputFolder = outputPath.split('/').slice(0, -1).join('/')
   const outputName = outputPath.split(outputFolder + '/')[1]
-  const node = argv.node || null
 
   // const outputFilename = outputPath.substr(outputPath.lastIndexOf('.') + 1) === 'js' ?
   //   outputPath :
