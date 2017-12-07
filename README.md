@@ -38,7 +38,7 @@ This is how you [install node and update npm](https://docs.npmjs.com/getting-sta
 
 ### Launch a NodeJS Server
 
-`npx soko server --app /path/to/nodejs/app.js`
+`npx soko server /path/to/nodejs/app.js`
 
 If there's a server already running, kill it.
 
@@ -59,6 +59,17 @@ Watch source files for any changes and rebuild outputs if necessary.
 
 Build all front-end files, start server, watch source files for changes, and
 restart server when they do.
+
+### Build All Front-end Assets
+
+You can also execute all build commands in one go.
+
+```
+npx soko build
+  --cssIn /path/to/styles.scss
+  --jsIn /path/to/app.js
+  --assetsIn /path/to/assets/folder`
+```
 
 ### Build React and/or ES2015+ Javascripts
 
@@ -83,17 +94,6 @@ Simply copy static asset files to build folder to place them altogether beside
 your scripts and styles. Static assets might also include HTML files ;)
 
 `npx soko build:assets /path/to/assets/folder`
-
-### Build All
-
-You can also execute all build commands in one go.
-
-```
-npx soko build
-  --cssIn /path/to/styles.scss
-  --jsIn /path/to/app.js
-  --assetsIn /path/to/assets/folder`
-```
 
 ### Revisioning All Files
 

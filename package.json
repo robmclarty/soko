@@ -1,6 +1,6 @@
 {
   "name": "soko",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A toolbox of cli tools for building and running javascript applications.",
   "bin": {
     "soko": "./bin/soko.js"

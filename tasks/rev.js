@@ -16,9 +16,9 @@ const revAssets = argv => {
 
   return gulp.src([
     `${ inputPath }/**/*`,
-    '!*.js',
-    '!*.css',
-    '!*.html'
+    '!**/*.js',
+    '!**/*.css',
+    '!**/*.html'
   ])
     .pipe(rev())
     .pipe(gulp.dest(inputPath))

@@ -53,7 +53,7 @@ const deployApp = argv => {
 
   console.log('Deploying app...')
 
-  return gulp.src(sources)
+  return gulp.src(`${ sources }/**/*`)
     .pipe(rsync({
       root: appRoot,
       hostname: serverHost,
