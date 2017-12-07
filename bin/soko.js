@@ -13,8 +13,8 @@ const {
 
 const tasks = {
   'server': require('../tasks/server'),
-  'build:css': require('../tasks/build-styles'),
-  'build:js': require('../tasks/build-scripts'),
+  'build:styles': require('../tasks/build-styles'),
+  'build:scripts': require('../tasks/build-scripts'),
   'rev': rev,
   'clean': require('../tasks/clean'),
   'deploy': deploy,
