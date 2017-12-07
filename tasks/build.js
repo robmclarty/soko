@@ -12,6 +12,8 @@ const DEFAULT_ASSETS_INPUT_PATH = 'assets'
 const buildAssets = argv => {
   const inputPath = argv.assetsIn || DEFAULT_ASSETS_INPUT_PATH
 
+  console.log('Building assets...')
+
   return gulp.src(`${ inputPath }/**/*`)
     .pipe(size({ showFiles: true }))
     .pipe(gulp.dest('./build'))
@@ -32,6 +34,8 @@ const buildCSS = argv => {
   const outputPath = argv._[2] || argv.cssOut || DEFAULT_CSS_OUTPUT_PATH
   const outputFolder = outputPath.split('/').slice(0, -1).join('/')
   const outputName = outputPath.split(outputFolder + '/')[1].split('.css')[0]
+
+  console.log('Building CSS...')
 
   gulp.src([inputPath])
     .pipe(gulpif(!isProduction, sourcemaps.init({ loadMaps: true })))
@@ -89,6 +93,9 @@ const buildJS = argv => {
   const stream = browserify(browserifyOptions)
     .transform(envify())
     .transform(babelify.configure(babelifyOptions))
+
+
+  console.log('Building JS...')
 
   return stream.bundle()
     .pipe(source(outputName))

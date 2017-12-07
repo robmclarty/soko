@@ -38,15 +38,27 @@ This is how you [install node and update npm](https://docs.npmjs.com/getting-sta
 
 ### Launch a NodeJS Server
 
-`npx soko server /path/to/nodejs/app.js`
+`npx soko server --app /path/to/nodejs/app.js`
 
 If there's a server already running, kill it.
 
+### Watch for Changes
+
+```
+npx soko watch
+  --cssIn /path/to/styles.scss
+  --jsIn /path/to/app.js
+  --assetsIn /path/to/assets/folder`
+```
+
+Watch source files for any changes and rebuild outputs if necessary.
+
 ### Start Development Environment
 
-`npx soko watch /path/to/nodejs/app.js`
+`npx soko dev /path/to/nodejs/app.js`
 
-Watch source files for changes and restart server when they do.
+Build all front-end files, start server, watch source files for changes, and
+restart server when they do.
 
 ### Build React and/or ES2015+ Javascripts
 
@@ -83,9 +95,9 @@ npx soko build
   --assetsIn /path/to/assets/folder`
 ```
 
-### Revisioning Static Assets
+### Revisioning All Files
 
-`npx soko rev /path/to/build/folder`
+`npx soko rev`
 
 Copy all static assets to build folder and rename them using a hash of their
 contents such that the hash (and filename) will change if the contents change
@@ -93,6 +105,22 @@ thereby breaking any cacheing mechanisms automatically.
 
 Using a manifest of all renamed files, update all references to those files
 in any JS, CSS, or HTML files that need to load them.
+
+### Revisioning Static Assets
+
+`npx soko rev:assets`
+
+### Revisioning JS
+
+`npx soko rev:js`
+
+### Revisionsing CSS
+
+`npx soko rev:css`
+
+### Revisioning HTML
+
+`npx soko rev:html`
 
 ### Deploy Build to Remote
 
