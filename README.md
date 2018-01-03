@@ -133,6 +133,9 @@ dependencies and then restart the server).
 ## TODO
 
 - always reduce the amount of configuration required
+- add more error checking for inputs
+- return better error messages to make things obvious when they go wrong
+- write unit tests
 - add commands to build docker containers easily
 
 ## License
