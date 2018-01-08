@@ -87,7 +87,8 @@ const buildJS = argv => {
     fullPaths: false
   }
   const babelifyOptions = {
-    presets: [['env', { targets }], 'react']
+    presets: [['env', { targets }], 'react'],
+    plugins: ['babel-plugin-transform-object-rest-spread']
   }
   const stream = browserify(browserifyOptions)
     .transform(envify())
