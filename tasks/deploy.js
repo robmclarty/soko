@@ -11,18 +11,20 @@ const manifestAssets = 'rev-assets-manifest.json'
 const manifestScripts = 'rev-scripts-manifest.json'
 const manifestStyles = 'rev-styles-manifest.json'
 
+const DEFAULT_ASSETS_PATH = '/build'
 const DEFAULT_ASSETS_DESTINATION = '/srv/opt/app'
 
 // Copy static assets to server.
 const deployAssets = argv => {
   const serverHost = argv.host || process.env.SERVER_HOST
   const assetsDest = argv.assetsDest || DEFAULT_ASSETS_DESTINATION
+  const assetsPath = argv.assetsPath || DEFAULT_ASSETS_PATH
 
   console.log('Deploying assets...')
 
-  return gulp.src('build/**')
+  return gulp.src(`${ assetsPath }/**`)
     .pipe(rsync({
-      root: 'build/',
+      root: `${ assetsPath }`,
       hostname: serverHost,
       destination: assetsDest,
       progress: true,
@@ -53,7 +55,7 @@ const deployApp = argv => {
 
   console.log('Deploying app...')
 
-  return gulp.src(`${ sources }/**/*`)
+  return gulp.src(sources)
     .pipe(rsync({
       root: appRoot,
       hostname: serverHost,
