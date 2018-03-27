@@ -83,9 +83,10 @@ const DEFAULT_REMOTE_COMMANDS = [
 const deployRemote = argv => {
   const serverHost = argv.host || process.env.SERVER_HOST
   const remoteCommandList = argv.commands || process.env.REMOTE_COMMANDS || DEFAULT_REMOTE_COMMANDS
-
   const concatCommands = (acc, cmd) => acc ? `${ acc } && ${ cmd }` : cmd
-  const remoteCommands = remoteCommandList.reduce(concatCommands, '')
+  const remoteCommands = Array.isArray(remoteCommandList) ?
+    remoteCommandList.reduce(concatCommands, '') :
+    remoteCommandList
 
   console.log('Deploying remote...')
 
