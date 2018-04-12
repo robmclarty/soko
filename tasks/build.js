@@ -10,7 +10,7 @@ const size = require('gulp-size')
 const DEFAULT_ASSETS_INPUT_PATH = 'assets'
 
 const buildAssets = argv => {
-  const inputPath = argv.assetsIn || DEFAULT_ASSETS_INPUT_PATH
+  const inputPath = argv.assetsIn || argv._[1] || DEFAULT_ASSETS_INPUT_PATH
 
   console.log('Building assets...')
 
