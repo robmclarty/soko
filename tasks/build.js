@@ -69,12 +69,23 @@ const buffer = require('vinyl-buffer')
 const buildJS = argv => {
   const isProduction = argv.production || false
   const browsers = argv.browsers || DEFAULT_BROWSERS
+  const electron = argv.electron || null
   const node = argv.node || null
   const targets = node ? { node } : { browsers }
   const inputPath = argv._[1] || argv.jsIn || DEFAULT_JS_INPUT_PATH
   const outputPath = argv.jsOut || DEFAULT_JS_OUTPUT_PATH
   const outputFolder = outputPath.split('/').slice(0, -1).join('/')
   const outputName = outputPath.split(outputFolder + '/')[1]
+
+  const presetEnv = electron ?
+    {
+      useBuiltIns: 'usage',
+      targets: { electron: '2.0.7' }
+    } :
+    {
+      useBuiltIns: false,
+      targets
+    }
 
   // const outputFilename = outputPath.substr(outputPath.lastIndexOf('.') + 1) === 'js' ?
   //   outputPath :
@@ -88,10 +99,16 @@ const buildJS = argv => {
   }
   const babelifyOptions = {
     presets: [
-      ['@babel/preset-env', { targets }],
+      ['@babel/preset-env', presetEnv],
       '@babel/preset-react'
     ],
     plugins: [
+      ['@babel/plugin-transform-runtime', {
+        corejs: false,
+        helpers: true,
+        regenerator: true,
+        useESModules: false
+      }],
       '@babel/plugin-syntax-async-generators',
       '@babel/plugin-syntax-object-rest-spread'
     ]
