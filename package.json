@@ -1,6 +1,6 @@
 {
   "name": "soko",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "A toolbox of cli tools for building and running javascript applications.",
   "bin": {
     "soko": "./bin/soko.js"
@@ -19,13 +19,13 @@
   },
   "homepage": "https://github.com/robmclarty/soko#readme",
   "dependencies": {
-    "babel-core": "~6.26.3",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "~6.26.0",
-    "babel-preset-env": "~1.7.0",
-    "babel-preset-react": "~6.24.1",
-    "babelify": "~8.0.0",
-    "browserify": "~16.2.2",
+    "@babel/core": "~7.1.2",
+    "@babel/plugin-syntax-async-generators": "~7.0.0",
+    "@babel/plugin-syntax-object-rest-spread": "~7.0.0",
+    "@babel/preset-env": "~7.1.0",
+    "@babel/preset-react": "~7.0.0",
+    "babelify": "~10.0.0",
+    "browserify": "~16.2.3",
     "clean-css": "~4.1.11",
     "del": "~3.0.0",
     "envify": "~4.1.0",
@@ -46,20 +46,5 @@
     "vinyl-buffer": "~1.0.1",
     "vinyl-source-stream": "~2.0.0",
     "yargs": "~11.0.0"
-  },
-  "devDependencies": {
-    "chart.js": "^2.7.1",
-    "cred-redux": "0.0.1",
-    "localforage": "^1.5.5",
-    "moment": "^2.19.3",
-    "paginated-redux": "^0.2.2",
-    "react": "15.3.0",
-    "react-chartjs-2": "^2.6.4",
-    "react-dom": "15.3.0",
-    "react-redux": "4.4.5",
-    "react-router": "2.6.1",
-    "react-router-redux": "4.0.5",
-    "react-router-scroll": "0.3.2",
-    "redux": "^3.7.2"
   }
 }

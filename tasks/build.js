@@ -87,10 +87,13 @@ const buildJS = argv => {
     fullPaths: false
   }
   const babelifyOptions = {
-    presets: [['env', { targets }], 'react'],
+    presets: [
+      ['@babel/preset-env', { targets }],
+      '@babel/preset-react'
+    ],
     plugins: [
-      'babel-plugin-transform-async-to-generator',
-      'babel-plugin-transform-object-rest-spread'
+      '@babel/plugin-syntax-async-generators',
+      '@babel/plugin-syntax-object-rest-spread'
     ]
   }
   const stream = browserify(browserifyOptions)
