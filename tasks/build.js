@@ -88,7 +88,10 @@ const buildJS = argv => {
   }
   const babelifyOptions = {
     presets: [['env', { targets }], 'react'],
-    plugins: ['babel-plugin-transform-object-rest-spread']
+    plugins: [
+      'babel-plugin-transform-async-to-generator',
+      'babel-plugin-transform-object-rest-spread'
+    ]
   }
   const stream = browserify(browserifyOptions)
     .transform(envify())
