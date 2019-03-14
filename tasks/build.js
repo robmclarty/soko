@@ -76,6 +76,7 @@ const buildJS = argv => {
   const outputPath = argv.jsOut || DEFAULT_JS_OUTPUT_PATH
   const outputFolder = outputPath.split('/').slice(0, -1).join('/')
   const outputName = outputPath.split(outputFolder + '/')[1]
+  const exclude = argv.exclude || []
 
   const presetEnv = electron ?
     {
@@ -117,6 +118,10 @@ const buildJS = argv => {
     .transform(envify())
     .transform(babelify.configure(babelifyOptions))
 
+  // Exclude packages listed in `exclude` array.
+  if (exclude && Array.isArray(exclude)) {
+    exclude.forEach(packageName => stream.external(packageName))
+  }
 
   console.log('Building JS...')
 
