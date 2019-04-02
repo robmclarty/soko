@@ -78,6 +78,7 @@ const buildJS = argv => {
   const outputName = outputPath.split(outputFolder + '/')[1]
   const exclude = argv.exclude || []
   const isUmd = argv.umd || false
+  const moduleName = argv.standalone || argv.moduleName || ''
 
   const presetEnv = electron ?
     {
@@ -116,8 +117,11 @@ const buildJS = argv => {
     ]
   }
 
+  // Only set `standalone` if a `moduleName` is given.
+  if (moduleName) browserifyOptions.standalone = moduleName
+
   // Only build as UMD if specifically requested to do so froom cli param.
-  if (isUmd) babelifyOptions.plugins.push('@babel/plugin-transform-modules-umd')
+  //if (isUmd) babelifyOptions.plugins.push('@babel/plugin-transform-modules-umd')
 
   const stream = browserify(browserifyOptions)
     .transform(envify())
