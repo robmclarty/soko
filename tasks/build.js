@@ -77,6 +77,7 @@ const buildJS = argv => {
   const outputFolder = outputPath.split('/').slice(0, -1).join('/')
   const outputName = outputPath.split(outputFolder + '/')[1]
   const exclude = argv.exclude || []
+  const isUmd = argv.umd || false
 
   const presetEnv = electron ?
     {
@@ -114,6 +115,10 @@ const buildJS = argv => {
       '@babel/plugin-syntax-object-rest-spread'
     ]
   }
+
+  // Only build as UMD if specifically requested to do so froom cli param.
+  if (isUmd) babelifyOptions.plugins.push('@babel/plugin-transform-modules-umd')
+
   const stream = browserify(browserifyOptions)
     .transform(envify())
     .transform(babelify.configure(babelifyOptions))
