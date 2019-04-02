@@ -1,6 +1,6 @@
 {
   "name": "soko",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "A toolbox of cli tools for building and running javascript applications.",
   "bin": {
     "soko": "./bin/soko.js"
@@ -22,7 +22,6 @@
     "@babel/core": "~7.1.2",
     "@babel/plugin-syntax-async-generators": "~7.0.0",
     "@babel/plugin-syntax-object-rest-spread": "~7.0.0",
-    "@babel/plugin-transform-modules-umd": "~7.0.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
     "@babel/preset-env": "~7.1.0",
     "@babel/preset-react": "~7.0.0",
