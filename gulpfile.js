@@ -13,14 +13,10 @@ function setProductionEnv(done) {
   return done()
 }
 
+// TODO: This isn't very configurable...
 function watch() {
   gulp.watch('assets/**/*', gulp.parallel('build:assets'))
   gulp.watch('styles/**/*', gulp.parallel('build:styles'))
-  // gulp.watch([
-  //   'admin/**/*',
-  //   'config/admin/**/*'
-  // ], gulp.parallel('build:admin', 'build:html'))
-  gulp.watch(['server/**/*'], gulp.series('server'))
 }
 watch.description = 'Watch variable folders for changes and rebuild if necessary.'
 gulp.task(watch)
