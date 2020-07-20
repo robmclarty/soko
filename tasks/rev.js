@@ -2,7 +2,7 @@
 
 const gulp = require('gulp')
 const rev = require('gulp-rev')
-const revReplace = require('gulp-rev-replace')
+const revRewrite = require('gulp-rev-rewrite')
 const size = require('gulp-size')
 
 const DEFAULT_BUILD_FOLDER = './build'
@@ -33,7 +33,7 @@ const revJS = argv => {
   const manifestJSPath = `${ DEFAULT_BUILD_FOLDER }/${ DEFAULT_MANIFEST_JS_NAME }`
 
   return gulp.src(`${ inputPath }/**/*.js`)
-    .pipe(revReplace({ manifest: gulp.src(manifestAssetsPath) }))
+    .pipe(revRewrite({ manifest: gulp.src(manifestAssetsPath) }))
     .pipe(rev())
     .pipe(gulp.dest(inputPath))
     .pipe(rev.manifest(manifestJSPath))
@@ -46,7 +46,7 @@ const revCSS = argv => {
   const manifestCSSPath = `${ DEFAULT_BUILD_FOLDER }/${ DEFAULT_MANIFEST_CSS_NAME }`
 
   return gulp.src(`${ inputPath }/**/*.css`)
-    .pipe(revReplace({ manifest: gulp.src(manifestAssetsPath) }))
+    .pipe(revRewrite({ manifest: gulp.src(manifestAssetsPath) }))
     .pipe(rev())
     .pipe(gulp.dest(inputPath))
     .pipe(rev.manifest(manifestCSSPath))
@@ -60,9 +60,9 @@ const revHTML = argv => {
   const manifestCSSPath = `${ DEFAULT_BUILD_FOLDER }/${ DEFAULT_MANIFEST_CSS_NAME }`
 
   return gulp.src(`${ inputPath }/**/*.html`)
-    .pipe(revReplace({ manifest: gulp.src(manifestAssetsPath) }))
-    .pipe(revReplace({ manifest: gulp.src(manifestCSSPath) }))
-    .pipe(revReplace({ manifest: gulp.src(manifestJSPath) }))
+    .pipe(revRewrite({ manifest: gulp.src(manifestAssetsPath) }))
+    .pipe(revRewrite({ manifest: gulp.src(manifestCSSPath) }))
+    .pipe(revRewrite({ manifest: gulp.src(manifestJSPath) }))
     .pipe(gulp.dest(inputPath))
 }
 
